@@ -1,0 +1,70 @@
+DROP TABLE IF EXISTS offers_categories;
+DROP TABLE IF EXISTS users_roles;
+DROP TABLE IF EXISTS roles;
+DROP TABLE IF EXISTS comments;
+DROP TABLE IF EXISTS offers;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS categories;
+
+CREATE TABLE categories (
+  id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE roles (
+  id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE users (
+  id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  firstname VARCHAR(255) NOT NULL,
+  lastname VARCHAR(255) NOT NULL,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  password_hash VARCHAR(255),
+  avatar VARCHAR(255)
+);
+
+CREATE TABLE offers (
+  id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  title VARCHAR(255) NOT NULL,
+  type VARCHAR(255) NOT NULL,
+  sum INTEGER NOT NULL,
+  description TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT current_timestamp,
+  picture VARCHAR(255) NOT NULL,
+  user_id INTEGER NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
+
+CREATE INDEX ON offers(title);
+
+CREATE TABLE comments (
+  id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  comment TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT current_timestamp,
+  user_id INTEGER NOT NULL,
+  offer_id INTEGER NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
+
+CREATE TABLE offer_categories (
+  offer_id INTEGER NOT NULL,
+  category_id INTEGER NOT NULL,
+  PRIMARY KEY (offer_id, category_id),
+  FOREIGN KEY (offer_id) REFERENCES offers(id),
+  FOREIGN KEY (category_id) REFERENCES categories(id)
+);
+
+CREATE TABLE users_roles (
+  user_id INTEGER NOT NULL,
+  role_id INTEGER NOT NULL,
+  PRIMARY KEY (user_id, role_id),
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  FOREIGN KEY (role_id) REFERENCES roles(id)
+);
+
