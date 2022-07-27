@@ -1,22 +1,22 @@
-'use strict';
+"use strict";
 
 const express = require(`express`);
-const {createServer} = require(`http`);
+const { createServer } = require(`http`);
 const socket = require(`../lib/socket`);
 const sequelize = require(`../lib/sequelize`);
 
 const chalk = require(`chalk`);
-const {getLogger} = require(`../lib/logger`);
+const { getLogger } = require(`../lib/logger`);
 const routes = require(`../api`);
-const {DEFAULT_PORT, HttpCode, ExitCode} = require(`../../constants`);
+const { DEFAULT_PORT, HttpCode, ExitCode } = require(`../../constants`);
 
-const logger = getLogger({name: `api`});
+const logger = getLogger({ name: `api` });
 
 const app = express();
-const httpServer = createServer(app);
-const io = socket(httpServer);
+//const httpServer = createServer(app);
+//const io = socket(httpServer);
 
-app.locals.socketio = io;
+//app.locals.socketio = io;
 
 app.use(express.json());
 
@@ -48,7 +48,6 @@ module.exports = {
     try {
       logger.info(chalk.yellow(`Connection to DB...`));
       await sequelize.authenticate();
-
     } catch (err) {
       logger.info(chalk.red(`Error to connect with DB: ${err.message}`));
       process.exit(ExitCode.ERROR);
@@ -56,11 +55,12 @@ module.exports = {
 
     logger.info(chalk.green(`Connection to database established`));
 
-    httpServer
-      .listen(port, () => {
+    app
+      .listen(process.env.PORT || DEFAULT_PORT, () => {
         logger.info(`Waiting to connect on port: ${port}`);
-      }).on(`error`, ({message}) => {
+      })
+      .on(`error`, ({ message }) => {
         logger.error(`Error create server: ${message}`);
       });
-  }
+  },
 };

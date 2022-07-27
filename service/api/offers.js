@@ -91,15 +91,15 @@ module.exports = (app, offerService, commentService) => {
 
   route.post(`/`, offerValidator(OfferSchema), async (req, res) => {
     const offer = await offerService.create(req.body);
-    console.log(offer.id);
+
     const adaptedOffer = adaptToClient(
       await offerService.findOne({ offerId: offer.id })
     );
 
-    const io = req.app.locals.socketio;
+    //const io = req.app.locals.socketio;
 
-    io.emit(`offer:create`, adaptedOffer);
-    res.status(HttpCode.CREATED).json(offer);
+    //io.emit(`offer:create`, adaptedOffer);
+    res.status(HttpCode.CREATED).json(adaptedOffer);
   });
 
   route.put(

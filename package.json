@@ -7,13 +7,12 @@
     "test": "npm run eslint & npm run jest",
     "jest": "jest",
     "eslint": "eslint --ext .js src/",
-    "start": "concurrently --prefix \"{time} - {name}\" --names \"BACKEND, SSR\" --prefix-colors \"cyan,#23de43\" \"npm:start-backend\" \"npm:start-front-server-prod\"",
+    "start": "cross-env NODE_ENV=development node ./service/service.js --fill-db 5 && node ./service/service.js --server",
+    "start2": "concurrently --prefix \"{time} - {name}\" --names \"FILLDB, BACKEND\" --prefix-colors \"cyan,#23de43\" \"npm:fill-db\" \"npm:start-backend\"",
     "start::debug": "cross-env NODE_ENV=development LOG_LEVEL=debug node ./service/service.js --server",
     "debug": "LOG_LEVEL=debug node ./src/service/cli/server.js | ./node_modules/.bin/pino-pretty",
-    "start-backend": "cross-env NODE_ENV=production LOG_LEVEL=error node ./src/service/service.js --server",
-    "start-front-server": "nodemon -r dotenv/config ./src/express/express.js",
-    "start-front-server-prod": "-r dotenv/config ./src/express/express.js",
-    "fill-db": "cross-env NODE_ENV=development node ./service/service.js --fill-db"
+    "start-backend": "cross-env NODE_ENV=production LOG_LEVEL=error node ./service/service.js --server",
+    "fill-db": "cross-env NODE_ENV=development node ./service/service.js --fill-db 5"
   },
   "repository": {
     "type": "git",
@@ -29,7 +28,6 @@
     "eslint": "8.11.0",
     "eslint-config-htmlacademy": "0.6.0",
     "jest": "27.5.1",
-    "pino-pretty": "7.6.0",
     "sqlite3": "5.0.8",
     "supertest": "6.2.2"
   },
@@ -49,6 +47,7 @@
     "nanoid": "3.3.2",
     "pg": "8.7.3",
     "pino": "7.9.2",
+    "pino-pretty": "7.6.0",
     "pug": "3.0.2",
     "sequelize": "6.19.0",
     "socket.io": "4.5.1"
