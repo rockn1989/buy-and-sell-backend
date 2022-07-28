@@ -9,7 +9,7 @@
     "eslint": "eslint --ext .js src/",
     "start": "cross-env NODE_ENV=production node ./service/service.js --server",
     "start::debug": "cross-env NODE_ENV=development LOG_LEVEL=debug node ./service/service.js --server",
-    "fill-db": "cross-env NODE_ENV=development node ./service/service.js --fill-db 5",
+    "fill-db": "cross-env NODE_ENV=development node ./service/service.js --fill-db 10",
     "postinstall": "concurrently  \"npm:fill-db\""
   },
   "repository": {
