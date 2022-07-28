@@ -1,19 +1,16 @@
 {
   "name": "buy-and-sell",
   "version": "1.0.0",
-  "description": "* Студент: [Артем Рябков](https://up.htmlacademy.ru/nodejs/3/user/72912). * Наставник: `Неизвестно`.",
-  "main": "./src/service/service.js",
+  "description": "Артем Рябков",
+  "main": "./service/service.js",
   "scripts": {
     "test": "npm run eslint & npm run jest",
     "jest": "jest",
     "eslint": "eslint --ext .js src/",
-    "start": "cross-env NODE_ENV=development node ./service/service.js --fill-db 5 && node ./service/service.js --server",
-    "start2": "concurrently --prefix \"{time} - {name}\" --names \"FILLDB, BACKEND\" --prefix-colors \"cyan,#23de43\" \"npm:fill-db\" \"npm:start-backend\"",
+    "start": "cross-env NODE_ENV=production node ./service/service.js --server",
     "start::debug": "cross-env NODE_ENV=development LOG_LEVEL=debug node ./service/service.js --server",
-    "debug": "LOG_LEVEL=debug node ./src/service/cli/server.js | ./node_modules/.bin/pino-pretty",
-    "start-backend": "cross-env NODE_ENV=production LOG_LEVEL=error node ./service/service.js --server",
     "fill-db": "cross-env NODE_ENV=development node ./service/service.js --fill-db 5",
-    "postinstall": "cross-env NODE_ENV=production node ./service/service.js --fill-db 5"
+    "postinstall": "concurrently  \"npm:fill-db\""
   },
   "repository": {
     "type": "git",
