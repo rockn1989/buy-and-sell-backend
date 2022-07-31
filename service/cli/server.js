@@ -29,6 +29,12 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use((req, res, next) => {
+  res.headers[`Access-Control-Allow-Origin`] = `*`;
+  res.headers[`Access-Control-Allow-Method`] = `*`;
+  next();
+});
+
 app.use(`/api`, routes);
 
 app.use((req, res) => {
