@@ -63,7 +63,7 @@ module.exports = {
     logger.info(chalk.green(`Connection to database established`));
 
     app
-      .listen(8080, () => {
+      .listen(process.env.PORT || DEFAULT_PORT, () => {
         logger.info(`Waiting to connect on port: ${port}`);
       })
       .on(`error`, ({ message }) => {
