@@ -30,8 +30,9 @@ app.use((req, res, next) => {
 });
 
 app.use((req, res, next) => {
-  res.headers[`Access-Control-Allow-Origin`] = `*`;
-  res.headers[`Access-Control-Allow-Method`] = `*`;
+  res.header(`Access-Control-Allow-Origin`, "*");
+  res.header(`Access-Control-Allow-Method`, "GET,PUT,POST,DELETE");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
   next();
 });
 
@@ -62,7 +63,7 @@ module.exports = {
     logger.info(chalk.green(`Connection to database established`));
 
     app
-      .listen(process.env.PORT || DEFAULT_PORT, () => {
+      .listen(8080, () => {
         logger.info(`Waiting to connect on port: ${port}`);
       })
       .on(`error`, ({ message }) => {
